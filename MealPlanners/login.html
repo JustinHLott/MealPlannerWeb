@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Meal Planner: Login</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="css/allMeals.css?v=1.00">
+    
+</head>
+<body>
+    <!--<div class="wrapper">-->
+        <header>
+            <div>
+        <h2 class="theHeader whiteText">Meal Planner</h2><br>
+        <nav >
+            <div style="display: flex; flex-direction: row; justify-content: space-between;">
+              <a>
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                  <div style="opacity: 0%;">➕</div>
+                  <div style="font-size: .6em; opacity: 0%;">Add Grocery</div>
+                </div>
+              
+              </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                
+            </div>
+        </nav>
+    </div>
+        </header>
+        <main>
+            <div id="gallery3" style="margin-top: 0; padding-top: 1px; padding-left: 0px; padding-right: 30px;">
+              <!--<img src="pics/n_1465_thumb.jpg" alt="1465" height="75">-->
+                <div id="login">
+                  <div id="divLogInOrCreate" style="display: block">
+                    <input type="button" id="chooseNewUser" value="Create New User" style="margin-top: 0px" class="fontSize1em marginLeft">
+                    <div id="createUserDiv" style="display: none">
+                      <form action="">
+                        <H3 class="whiteText"><strong>Create New User</strong></H3>
+                        <label for="emailAddressCreate" class="no-wrap fontSize1em whiteText" >Enter email address:</label><br>
+                        <div>
+                          <input type="text" id="emailAddressCreate" class="fontSize1em emailInput whiteBackground"><br>
+                        </div>
+                        
+                        <label for="userPasswordCreate" class="no-wrap whiteText">Enter password:</label><br>
+                        <div class="no-wrap" id="passwordDivCreate1">
+                          <input type="password" id="userPasswordCreate" class="fontSize1em whiteBackground" ><br>
+                          <button type="button" id="togglePassword" class="fontSize1em whiteBackground" >👁</button>
+                        </div>
+                        
+                        <label for="userPasswordCreate2" class="no-wrap whiteText">Enter password again:</label><br>
+
+                        <div class="no-wrap" id="passwordDivCreate2">
+                          <input type="password" id="userPasswordCreate2" class="fontSize1em whiteBackground" ><br>
+                          <button type="button" id="togglePassword2" class="fontSize1em whiteBackground" >👁</button>
+                        </div>
+                        <br>
+
+                      </form>
+                      <button id="createUser" class="fontSize1em marginLeft" style="margin-top: 10px; margin-bottom: 10px">Create User</button>
+                    </div>
+                    <div id="logInDiv" style="display: block">
+                      <form action="">
+                        <H3 class="whiteText"><strong>Log in</strong></H3>
+                        <label for="emailAddress" class="no-wrap fontSize1em whiteText" >Enter email address:</label>
+                        <div>
+                          <input type="text" id="emailAddress" class="fontSize1em emailInput whiteBackground"><br>
+                        </div>
+                        
+                        <label for="userPassword" class="no-wrap whiteText">Enter password:</label>
+                        <div class="no-wrap" id="passwordDivLogin">
+                          <input type="password" id="userPassword" class="fontSize1em whiteBackground" ><br>
+                          <button type="button" id="togglePasswordLogin" class="fontSize1em whiteBackground" >👁</button>
+                        </div>
+                        <input type="button" id="logIn" value="Log In" class="fontSize1em" style="margin-top: 10px">
+                      </form>
+                    </div>
+                  </div>
+
+
+                  <button id="logoutBtn" class="fontSize1em marginLeft" style="display: block; margin-top: 10px;">Log Out</button>
+                  <a href="getGroup.html">
+                    <button id="changeAccounts" class="fontSize1em marginLeft" style="margin-top: 10px;" >Accounts</button>
+                  </a><br>
+                  <a href="resetEmail.html">
+                    <button id="resetEmail" class="fontSize1em marginLeft" style="margin-top: 10px;" >Reset Password</button>
+                  </a><br>
+                  <a href="index.html">
+                    <button id="index" class="fontSize1em marginLeft" style="margin-top: 10px">This Week</button>
+                  </a>
+
+                  <p id="status" class="marginLeft whiteText"></p><br>
+  
+                </div>
+
+                <br class="clear-it">
+            </div>
+            
+        </main>
+        <footer class="centered">
+            <small><i>
+                Copyright &copy; Justin H Lott<br>
+                <a href="mailto:justin.h.lott.jhl@gmail.com">justin.h.lott.jhl@gmail.com</a>
+            </i></small>
+        </footer>
+    <!--</div>-->
+                  <script>
+                    function addDeviceClass(idDiv, idInput,idToggle) {
+                      const ua = navigator.userAgent || navigator.vendor || window.opera;
+                      const eDiv = document.getElementById(idDiv);
+                      const eInput = document.getElementById(idInput);
+                      const eToggle = document.getElementById(idToggle);
+
+                      if (!eDiv) {
+                      console.warn(`❌ Element with id="${idDiv}" not found`);
+                      return;
+                      }
+                      if (!eInput) {
+                      console.warn(`❌ Element with id="${idInput}" not found`);
+                      return;
+                      }
+                      if (!eToggle) {
+                      console.warn(`❌ Element with id="${idToggle}" not found`);
+                      return;
+                      }
+                      //detect phone type android or iphone then add the class to the classList
+                      if (/Windows NT/i.test(ua)) {
+                        //alert("windwos3.7");
+                        eDiv.classList.add("windowsDivPassword");
+                        eInput.classList.add("windowsInputPassword");
+                        eToggle.classList.add("windowsButtonPassword");
+                      } else if (/android/i.test(ua)) {
+                        //alert("android3.7");
+                        eDiv.classList.add("androidDivPassword");
+                        eInput.classList.add("androidInputPassword");
+                        eToggle.classList.add("androidButtonPassword");
+                      } else if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+                        //alert("apple4.92");
+                        eDiv.classList.add("appleDivPassword");
+                        eInput.classList.add("appleInputPassword");
+                        eToggle.classList.add("appleButtonPassword");
+                      } else {
+                        console.log("Unknown device — no class added");
+                      }
+                    }
+
+                    // Example: call it after page loads
+                    document.addEventListener("DOMContentLoaded", () => {addDeviceClass("passwordDivLogin","userPassword","togglePasswordLogin");});//login
+                    document.addEventListener("DOMContentLoaded", () => {addDeviceClass("passwordDivCreate1","userPasswordCreate","togglePassword");});//create1
+                    document.addEventListener("DOMContentLoaded", () => {addDeviceClass("passwordDivCreate2","userPasswordCreate2","togglePassword2");});//create2
+                  </script>
+    <script type="module" src="js/firebaseLogin.js"></script>
+</body>
+</html>

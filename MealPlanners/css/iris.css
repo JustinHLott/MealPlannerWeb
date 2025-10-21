@@ -1,0 +1,474 @@
+html {
+  -webkit-text-size-adjust: none;  /* for Chrome/Android/iOS Keeps text size what you say they are on phones*/
+  text-size-adjust: none;          /* standard property */
+}
+.wrapper {
+    background: rgb(192, 215, 224);
+    width: 80%;
+    max-width: 1200px;
+    min-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+}
+body {
+    background-image: linear-gradient(to bottom, darkgray, #FFFFFF);
+    background-repeat: no-repeat;
+    color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 1.3em;
+    margin-top: 0;
+    margin-left: 0;
+    margin-right: 0;
+}
+header {
+    background-color: rgb(255, 255, 255); /*rgb(241, 242, 244);*/
+    color: rgb(69,71,56);
+    background-image: url(irisDrawing.jpg);
+    background-repeat: no-repeat;
+    background-position: right;
+
+    padding-top: 3px;
+    text-indent: 1em;
+}
+
+nav {
+    background-color: rgb(255, 255, 255); /*rgb(241, 242, 244);*/
+    font-weight: bold;
+    padding-top: 1em;
+    padding-bottom: 6px;
+    border-bottom: 2px solid black;
+    padding-left: 1em;
+    font-size: 1em;
+}
+nav a {
+    text-decoration: none; /*This makes no underlines on nav hyperlinks*/
+    transition:color 4s linear;
+    font-size: 1em;
+}
+
+a:hover {
+    color: #13bcd3;
+}
+nav a:hover {
+    transition-property: color;
+    transition-duration: 0s;
+    transition-timing-function: linear;
+}
+.theHeader {
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+h2 {
+    color: rgb(69,71,56);
+}
+h3 {
+    color: rgb(69,71,56);
+}
+ul{
+    list-style-image: url(irisDrawing-s.jpg);
+}
+footer {
+    font-size: 1em;
+    font-style: italic;
+    background-color: rgb(241, 242, 244);
+}
+.centered {
+    text-align: center;
+}
+/*for the About*/
+#about {
+    background: rgb(192, 215, 224);
+    margin-left: 10px;
+    margin-right: 10px;
+}
+#main-area {
+    margin-left: 20px;
+}
+#main-area p{
+    margin-right: 35px;
+}
+.clear-it {/*for the Index page*/
+    clear: right;
+}
+#about img {/*for the Index page*/
+    filter: grayscale(100%);/*makes images black and white*/
+}
+/*for the Index page*/
+@media (max-width: 250px) {
+    #img1 {
+        display: none;
+    }
+    #img2 {
+        display: none;
+    }
+    #img3 {
+        display: none;
+    }
+}
+@media (max-width: 450px) {
+    #img2 {
+        display: none;
+    }
+    #img3 {
+        display: none;
+    }
+    figure img{
+        width:280px;
+        height: auto;
+    }
+}
+@media (max-width: 750px) {
+    #img3 {
+        display: none;
+    }
+}
+@media (max-width: 1000px) {
+
+}
+@media (max-width: 1250px) {
+
+}
+@media (max-width: 2000px) {
+    /*#img3 {
+        display: none;
+    }*/
+}
+#index-pics {
+    text-align: center;
+}
+#gallery3 {/*This is for index/home*/
+    padding-left: 30px;
+    padding-right: 15px;
+    background: url(bkgrnd.jpg) repeat-y left top, url(bkgrnd.jpg) repeat-y right top;
+}
+#pricing-text {
+    text-align: left;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: 0;
+    padding-top: 0;
+}
+#gallery2 {/*This is for Pricing*/
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    text-align: left;
+    padding-left: 35px;
+    padding-right: 35px;
+    margin-top: 0;
+    padding-top: 0;
+    background: url(bkgrnd.jpg) repeat-y left top, url(bkgrnd.jpg) repeat-y right top;
+}
+.thumb {/*This is for Pricing*/
+    text-align: center;
+    margin-top: 0;
+    padding-top: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+#gallery {/*This is for the Portfolio & pricing*/
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    padding-left: 35px;
+    padding-right: 35px;
+    background: url(bkgrnd.jpg) repeat-y left top, url(bkgrnd.jpg) repeat-y right top;
+}
+#gallery figure {/*This is for the Portfolio*/
+  text-align: center;   /* centers inline content like img and text */
+  margin: auto;       /* auto left/right margins = center */
+  width: fit-content;   /* shrink figure to fit its contents */
+  margin-inline-start: 0;
+    margin-inline-end: 0;
+    margin-block-start: 0;
+    margin-block-end: 0;
+}
+#gallery figure img {/*This is for the Portfolio*/
+    margin: 0 auto;
+    box-shadow:5px 5px 5px #777;
+    display: block;
+}
+#gallery figure figcaption {/*This is for the Portfolio*/
+    color: Black;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 2px 2px 2px #777;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+#contact {/*This is for the contact area at the bottom of each webpage*/
+    padding-left: 0px;
+    padding-right: 0px;
+    background: url(bkgrnd.jpg) repeat-y left, url(bkgrnd.jpg) repeat-y right;
+}
+#contact2 {/*This is for the contact area at the bottom of each webpage*/
+    background: url(bkgrnd.jpg) repeat-y left, url(bkgrnd.jpg) repeat-y right;
+}
+/*Reservations page*/
+label {
+    float: left;
+    display: block;
+    text-align: left;
+    width: 160px;
+    padding-right: 5px;
+}
+input, textarea {
+    display: block;
+    margin-bottom: 20px;
+}
+input[type="submit"] {
+    margin-left: 165px;
+}
+/*pricing page*/
+#main-pricing {
+    margin-top: 0;
+    padding-top: 0;
+}
+table {
+    border: 2px solid rgb(69,71,56);
+    border-collapse: collapse;
+    width: 100%;
+    margin: auto;
+    margin-bottom: 15px;
+    background-color: rgb(241, 242, 244);
+    font-size: .5em;
+}
+td, th {
+    padding: .25em;
+    border: 2px solid rgb(69,71,56);
+}
+th {
+    color: rgb(241, 242, 244);
+    background-color: rgb(69,71,56);
+}
+.text {
+    text-align: left;
+}
+tr:nth-of-type(odd) {
+    background-color: lightgray;
+}
+
+/*Login page*/
+
+
+#login {
+    background: rgb(192, 215, 224);
+    margin-left: 10;
+    margin-right: 10px;
+    padding-left: 10;
+}
+form {
+    margin-left: 10px;
+    padding-left: 0px;
+}
+.fontSize1em {
+    font-size: 1em;
+}
+.no-wrap {
+    white-space: nowrap; /* prevents wrapping */
+}
+
+label {
+    margin-right: 30px;
+}
+
+input text{
+    width: 250px; /* control input width */
+    font-size: 1em;  /* adjust to what looks good */
+}
+
+/* CSS only for Windows */
+.windowsDivPassword {
+    border: 1px solid rgb(118, 118, 118);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    width: 300px; height: 36px;
+}
+.windowsButtonPassword {
+    align-items: center;
+    align-content: center;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    width: 36px; height: 36px;
+}
+.windowsInputPassword {
+    align-items: center;
+    align-content: center;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    width: 264px; height: 34px;
+}
+/* CSS only for Android */
+.androidDivPassword {
+    border: 1px solid rgb(118, 118, 118);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    width: 300px; height: 36px;
+}
+.androidButtonPassword {
+    align-items: center;
+    align-content: center;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    width: 36px; height: 36px;
+}
+.androidInputPassword {
+    align-items: center;
+    align-content: center;
+    border: none;
+    border-radius: 6px;
+    background-color: white;
+    width: 260px; height: 34px;
+}
+/* CSS only for iOS */
+.appleDivPassword {
+    display: flex;
+    flex-direction: row;
+    align-items: center;         /* center input + button vertically */
+    border: 1px solid rgb(118, 118, 118);
+    border-radius: 6px;
+    width: 250px;
+    height: 40px;
+    overflow: hidden;            /* trims any spill */
+    -webkit-appearance: none;    /* reset iOS default */
+    appearance: none;
+}
+
+.appleInputPassword {
+    /*flex: 5;                      take up remaining width */
+    width: 203px;
+    height: 100%;                /* fill container height */
+    border: none;
+    border-radius: 0;
+    padding: 0 4px;              /* add breathing space for text */
+    margin: 0;
+    font-size: 1em;
+    background-color: white;
+    /*box-sizing: border-box;       padding included in height */
+    -webkit-appearance: none;    /* reset iOS default */
+    appearance: none;
+}
+
+.appleButtonPassword {
+    /*flex: 1;*/
+    width: 39px;
+    /*width: 36px;*/
+    height: 100%;                 /* match parent height */
+    border: none;
+    margin: 0 0;
+    background-color: white;
+    display: flex;
+    justify-content: center;      /* center icon/text */
+    align-items: center;
+    -webkit-appearance: none;    /* reset iOS default */
+    appearance: none;
+}
+/*
+.appleDivPassword {
+    border: 1px solid black;
+    border-radius: 3px;
+    display: flex;
+    flex-direction: row;
+    width: 250px; height: 60px;
+}
+.appleButtonPassword {
+    align-items: center;
+    align-content: center;
+    border: none;
+    border-radius: 3px;
+    background-color: white;
+    width: 36px; height: 60px; padding: 0; margin: 0;
+}
+.appleInputPassword {
+    align-items: center;
+    align-content: center;
+    border: none;
+    border-radius: 3px;
+    background-color: white;
+    width: 214px; height: 30px; padding: 0; margin: 0;
+}
+*/
+
+.emailInput {
+    width: 230px;
+    font-size: 1em;
+    border: 1px solid rgb(118, 118, 118);
+    border-radius: 6px;
+    -webkit-appearance: none;    /* reset iOS default */
+    appearance: none;
+}
+.marginLeft {
+    margin-left: 10px;
+}
+
+
+
+
+/*Comments Page*/
+#commentText{
+    width: 80%;
+}
+  .modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+  }
+  .modal-content {
+    background: white;
+    padding: 20px;
+    max-width: 400px;
+    margin: 10% auto;
+    border-radius: 8px;
+  }
+  .textareaSize {
+    width: 100%;
+    height: 100px;
+  }
+
+/* Bigger size for Android/phones (screen ≤ 1080px) */
+@media only screen and (max-width: 1080px) {
+  nav a {
+    font-size: 1em;  /* adjust to what looks good */
+  }
+  .wrapper {
+    width: 100%;
+    max-width: 3000px;
+    min-width: 350px;
+    margin-left: 0px;
+    margin-right: 0px;
+    padding: 0;
+  }
+  #gallery2 {/*This is for the Pricing*/
+    padding-left: 40px;
+    padding-right: 40px;
+    font-size: 1em;
+  }
+  #gallery {/*This is for the Portfolio & Pricing*/
+    padding-left: 0px;
+    padding-right: 0px;
+    margin: 0 auto;
+    font-size: 1em;
+    text-align: center;
+    width: fit-content;   /* shrink figure to fit its contents */
+  }
+  #gallery figure figcaption{/*This is for the Portfolio*/
+    font-size: 1em;
+  }
+  #about {
+    background: rgb(192, 215, 224);
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+}

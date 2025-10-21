@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"  name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/iris.css?v=5.7">
+    <link rel="stylesheet" href="css/confirm.css?v=1.00">
+    <title>Meal Planner: Email Reset Password</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .container { max-width: 400px; margin: auto; }
+        input { width: 100%; padding: 8px; margin-bottom: 10px; }
+        button { padding: 10px 20px;}
+        .message { margin-top: 10px; color: green; }
+        .error { margin-top: 10px; color: red; }
+        #backBtn {margin-top: 50px;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Enter your email to reset Your password</h2>
+    <input type="text" id="emailInput" placeholder="Enter email" class="fontSize1em" />
+    <button id="resetEmailBtn" class="fontSize1em">Send Email</button>
+    <div id="backBtn">
+        <button id="backToLoginBtn" class="fontSize1em">Back to Login</button>
+    </div>
+    
+    <p class="message" id="message"></p>
+    <p class="error" id="error"></p>
+</div>
+<div id="custom-confirm"></div>
+<script type="module">
+    import { sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    // Your Firebase config
+    import { auth } from "./js/firebaseAuth.js";
+    import { customConfirm } from "./js/confirmModal.js";
+    import { loadComponent } from "./js/functions.js";
+
+    loadComponent("custom-confirm", "components/custom-confirm.html");
+
+    const resetBtn = document.getElementById("resetEmailBtn");
+
+    resetBtn.addEventListener("click", () => {
+        const email = document.getElementById("emailInput").value;
+
+        sendPasswordResetEmail(auth, email)
+            .then(() => {
+            customConfirm("✅ Password reset email sent! Check your inbox.", "Email", false);
+            })
+            .catch((error) => {
+            customConfirm("❌ Error sending reset email:"+ error.message, "Error", false);
+            });
+    });
+    const backToLogin = document.getElementById("backToLoginBtn");
+
+    backToLogin.addEventListener("click", () => {
+        window.location.href="login.html"
+    });
+</script>

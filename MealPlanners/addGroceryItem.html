@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/allMeals.css?v=1.01">
+  <title>Meal Planners: Add Meal</title>
+
+</head>
+<body>
+
+  <main style="font-size: 1.3em;">
+    <div id="editModal" class="modalBlock">
+        <div class="modal-contentBlock">
+            <div class="step" id="step3" style="display:none;">
+                <h4 style="margin:0; padding:0;">Add Qty &nbsp;&nbsp;&nbsp;&nbsp;Add Grocery Item</h4>
+                <div style="display: flex; flex-direction: row;">
+                  <input type="text" id="addQtyText" style="width: 80px; font-size: 1.3em;"></input><br>
+                  <input type="text" id="addGroceryText" style="width: 100%; font-size: 1.3em;"></input><br>
+                </div>
+                
+                <button id="saveNewGroceryBtn"  style="font-size: 1em; margin-top: 10px;">Save 💾</button>
+                <button id="cancelNewGroceryBtn"  style="font-size: 1em; margin-top: 10px;">Cancel ❌</button>
+                <p style="margin-top: 200px;"></p>
+            </div>
+        </div>
+    </div>
+    <p style="margin-top: 200px;"></p>
+  </main>
+
+  <script>
+    // Bind to button in JS
+    //document.getElementById("addCommentBtn").addEventListener("click", () => { addComment1(); });
+    if(document.querySelector(".custom-button")){
+        document.querySelector(".custom-button").addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                e.target.click(); // trigger the click handler
+            }
+        });
+    }
+    
+  </script>
+
+  <script type="module" src="js/addGroceryItem.js"></script>
+</body>
+</html>

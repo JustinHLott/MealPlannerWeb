@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"  name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="iris.css?v=5.91">
+    <title>Meal Planners: Reset Password</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .container { max-width: 400px; margin: auto; }
+        /*input { width: 100%; padding: 8px; margin-bottom: 10px; }*/
+        #buttons { padding: 10px 20px; }
+        .message { margin-top: 10px; color: green; }
+        .error { margin-top: 10px; color: red; }
+        #backBtn {margin-top: 50px;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Reset Your Password</h2>
+    <div id="divPasswordReset" class="no-wrap" style="margin-bottom: 10px">
+        <input type="password" id="inputPasswordReset" class="fontSize1em" >
+        <button type="button" id="togglePasswordReset" class="fontSize1em" >👁</button>
+    </div>
+    <button id="resetBtn" class="fontSize1em buttons" style="margin-top: 10px">Reset Password</button>
+    <div id="backBtn">
+        <button id="backToLoginBtn" class="fontSize1em buttons">Back to Login</button>
+    </div>
+    <p class="message" id="status"></p>
+    <p class="message" id="message"></p>
+    <p class="error" id="error"></p>
+</div>
+<script type="module" src="js/firebaseLogin.js"></script>
+<script type="module">
+    import { confirmPasswordReset } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+
+    // Your Firebase config
+    import { auth } from "./js/firebaseAuth.js";
+
+    // Parse the reset code from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const oobCode = urlParams.get("oobCode"); // Firebase sends this in the email link
+
+    const resetBtn = document.getElementById("resetBtn");
+    const inputPasswordReset = document.getElementById("inputPasswordReset");
+    const messageEl = document.getElementById("message");
+    const errorEl = document.getElementById("error");
+
+    resetBtn.addEventListener("click", () => {
+        const newPassword = inputPasswordReset.value.trim();
+
+        if (!newPassword) {
+            errorEl.textContent = "Please enter a new password.";
+            return;
+        }
+
+        confirmPasswordReset(auth, oobCode, newPassword)
+            .then(() => {
+                messageEl.textContent = "✅ Password has been reset successfully!";
+                errorEl.textContent = "";
+                // Optional: redirect to login page
+                setTimeout(() => {
+                    window.location.href = "/login.html";
+                }, 2000);
+            })
+            .catch((error) => {
+                errorEl.textContent = "❌ Error resetting password: " + error.message;
+                messageEl.textContent = "";
+                console.error("Error:", error);
+            });
+    });
+
+    const backToLogin = document.getElementById("backToLoginBtn");
+
+    backToLogin.addEventListener("click", () => {
+        window.location.href="login.html"
+    });
+</script>
+<script>
+    //Add classes to div input and button to show toggle eye at end of password input
+    function addDeviceClass(idDiv, idInput,idToggle) {
+        const ua = navigator.userAgent || navigator.vendor || window.opera;
+        const eDiv = document.getElementById(idDiv);
+        const eInput = document.getElementById(idInput);
+        const eToggle = document.getElementById(idToggle);
+
+        if (!eDiv) {
+        console.warn(`❌ Element with id="${idDiv}" not found`);
+        return;
+        }
+        if (!eInput) {
+        console.warn(`❌ Element with id="${idInput}" not found`);
+        return;
+        }
+        if (!eToggle) {
+        console.warn(`❌ Element with id="${idToggle}" not found`);
+        return;
+        }
+        //detect phone type android or iphone then add the class to the classList
+        if (/Windows NT/i.test(ua)) {
+            //alert("windwos3");
+            eDiv.classList.add("windowsDivPassword");
+            eInput.classList.add("windowsInputPassword");
+            eToggle.classList.add("windowsButtonPassword");
+            } else if (/android/i.test(ua)) {
+            //alert("android3");
+            eDiv.classList.add("androidDivPassword");
+            eInput.classList.add("androidInputPassword");
+            eToggle.classList.add("androidButtonPassword");
+            } else if (/iPad|iPhone|iPod/.test(ua) && !window.MSStream) {
+            //alert("apple3");
+            eDiv.classList.add("appleDivPassword");
+            eInput.classList.add("appleInputPassword");
+            eToggle.classList.add("appleButtonPassword");
+            } else {
+            console.log("Unknown device — no class added");
+            }
+    }
+
+    // Example: call it after page loads
+    document.addEventListener("DOMContentLoaded", () => {
+        addDeviceClass("divPasswordReset","inputPasswordReset","togglePasswordReset");
+    });//Reset
+</script>
+</body>
+</html>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"  name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/iris.css?v=5.91">
+    <link rel="stylesheet" href="css/confirm.css?v=1.00">
+    <title>Meal Planners: Share Account</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .container { max-width: 400px; margin: auto; }
+        /*input { width: 100%; padding: 8px; margin-bottom: 10px; }*/
+        #buttons { padding: 10px 20px; }
+        .message { margin-top: 10px; color: green; }
+        .error { margin-top: 10px; color: red; }
+        #backBtn {margin-top: 50px;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>Share Account</h2>
+    <div id="divPasswordReset" class="no-wrap" style="margin-bottom: 10px">
+        <p>Enter email below to share:</p>
+        <input type="text" id="inputEmail" class="fontSize1em" >
+    </div>
+    
+    <button id="shareAccountBtn" class="fontSize1em buttons" style="margin-top: 0px">Share Account</button>
+    <div id="backBtn">
+        <button id="backToAccountsBtn" class="fontSize1em buttons">Back to Accounts</button>
+    </div>
+    <p class="message" id="status"></p>
+    <p class="message" id="message"></p>
+    <p class="error" id="error"></p>
+</div>
+<div id="custom-confirm"></div>
+
+<script type="module">
+    import { confirmPasswordReset } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    import { getDatabase, ref, push, set//, serverTimestamp
+        //, update
+        , query, orderByChild, equalTo, get, onValue, remove
+        } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";// if using Realtime DB
+    // Your Firebase config
+    import { auth } from "./js/firebaseAuth.js";
+    import { app } from "./js/firebaseAuth.js";
+    import { customConfirm } from "./js/confirmModal.js";
+    import { loadComponent } from "./js/functions.js";
+
+    const db = getDatabase(app);
+
+    
+    loadComponent("custom-confirm", "components/custom-confirm.html");
+    const shareAccountBtn = document.getElementById("shareAccountBtn");
+    const inputEmail = document.getElementById("inputEmail");
+    const messageEl = document.getElementById("message");
+    const errorEl = document.getElementById("error");
+
+    const email = localStorage.getItem("email");
+    let accountId = await localStorage.getItem(email.toLowerCase()+"_"+"groupToShare");
+    accountId = accountId;
+
+    shareAccountBtn.addEventListener("click", async () => {
+        const newEmail = inputEmail.value.trim();
+
+        if (!newEmail) {
+            errorEl.textContent = "Please enter an Email.";
+            return;
+        }
+
+        const groupsRef = ref(db, 'groups');
+
+        const snapshot1 = await get(groupsRef);
+        const accountArray = [];
+        snapshot1.forEach((child) =>{
+            accountArray.push(child);
+        });
+
+        if (!snapshot1.exists()) {
+            //await ensureConfirmModalLoaded();
+            customConfirm("Could not find the account list.", "Error", false);
+            return;
+        }else{
+            let dbEmail="";
+            let dbGroup="";
+
+            for(const child of accountArray){
+                const account = child.val();
+                if(account.email === newEmail&&account.groupId === accountId){
+                    dbGroup = account.groupId;
+                    dbEmail = account.email;
+                    break;
+                }
+            };
+            //alert(dbEmail+dbGroup)
+            if(dbEmail!="" && dbGroup!=""){
+                customConfirm("No need to share group with this email. It already has been shared.","Sharing", false);
+            }else{
+                const newGroupRef = push(groupsRef); // generates a unique ID
+
+                                
+                const groupNameRef = ref(db, "groups/" + accountId);
+                // ✅ get the actual group data
+                const snapshot = await get(groupNameRef);
+                if (!snapshot.exists()) {
+                    //await ensureConfirmModalLoaded();
+                    customConfirm("Could not find the group to share.", "Error", false);
+                    return;
+                }
+
+                const groupData = snapshot.val();
+                const groupName = groupData.group; // this now exists!
+                
+                set(newGroupRef, { 
+                    email: inputEmail.value,
+                    group: groupName,
+                    groupId: accountId,
+                    id: newGroupRef.key
+                    })
+                .then(async () =>{
+                        //alert("added new group success");
+                        console.log("Group added successfully!");
+                        //customConfirm(`Successfully shared account "${groupName}"" with email ${inputEmail.value}`, "Account Shared", false);
+                        const ok = await customConfirm(`Successfully shared account "${groupName}" with email ${inputEmail.value}`, "Success", false);
+                        if(ok){
+                            //customConfirm("Successfully shared account", "Account Shared", false);
+                            window.location.href="getGroup.html"
+                        }
+                        
+                    })
+                .catch(err => {
+                    //alert("added new group err");
+                    customConfirm("Added new group, error: ", "Error", false);
+                    console.error("❌ Error:", err);
+
+                });
+            }
+        }
+
+        
+    });
+
+    const backToAccounts = document.getElementById("backToAccountsBtn");
+    if (backToAccounts){
+        backToAccounts.addEventListener("click", () => {
+            window.location.href="getGroup.html"
+        });
+    }
+    
+</script>
+
+</body>
+</html>

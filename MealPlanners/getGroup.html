@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Meal Planner: Group</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <link rel="stylesheet" href="css/allMeals.css?v=1.00">
+    <link rel="stylesheet" href="css/confirm.css?v=1.00">
+</head>
+
+<body>
+
+    <header>
+        
+        <div>
+            <h1 class="theHeader whiteText">Meal Planner</h1>
+            <div id="headerComponent"></div>
+        </div>
+    </header>
+   
+        
+        <main>
+            <div  style="margin-top: 0; padding-top: 0px; padding-left: 35px; padding-right: 30px;">
+                <div style="margin-top: 0; padding-top: 0px;">
+                    <div style="display: flex; margin-top: 0; padding-top: 0px;">
+                      <form style="margin-left: 0; margin-top: 0; padding-top: 0px;">
+                        <span id="idGroupName" class="whiteText" style="margin-top: 0; margin-bottom: 0; padding-top: 0px; padding-bottom: 0;"></span>
+                        <H3 class="whiteText" style="margin-top: 0; margin-bottom: 0; padding-top: 0px; padding-bottom: 0;">Select New Account:</H3>
+
+                        <div id="radioButtons" class="whiteText"></div>
+                        <button type = "button" id="idSaveGroup" class="fontSize1em marginLeft" style="margin-top: 10px; margin-bottom: 10px; background: lightgreen">Save Account</button>
+                        <br>
+                        <button type = "button" id="idShareGroup" class="fontSize1em marginLeft" style="margin-top: 10px; margin-bottom: 10px; color: gray;">Share Account</button>
+                        <br>
+                        <button type = "button" id="idNewGroup" class="fontSize1em marginLeft" style="margin-top: 10px; margin-bottom: 10px; color: gray;">Create Account</button>
+                        <br>
+                        <button type = "button" id="idDeleteGroup" class="fontSize1em marginLeft" style="margin-top: 10px; margin-bottom: 10px; color: gray;">Delete Account</button>
+                      </form>
+                    </div>
+                  <p id="status" class="whiteText"></p><br>
+                </div>
+            </div>
+            
+        </main>
+        
+        <div id="footerComponent"></div>
+        <div id="custom-confirm"></div>
+                <script type="module">
+                    import { getDatabase, ref, push, set//, serverTimestamp
+                        //, update
+                        , query, orderByChild, equalTo, get, onValue, remove
+                    } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";// if using Realtime DB
+                    import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+                    import { auth } from "./js/firebaseAuth.js";
+                    import { app } from "./js/firebaseAuth.js";
+                    import { showLoading, hideLoading } from "./js/loading.js";
+                    import { loadComponent } from "./js/functions.js";
+                    import { customConfirm } from "./js/confirmModal.js";
+
+                    const db = getDatabase(app);
+
+                    //load the header and footer
+                    loadComponent("footerComponent", "components/footer.html");
+                    loadComponent("headerComponent", "components/header.html");
+                    loadComponent("custom-confirm", "components/custom-confirm.html");
+                    
+
+                    function getGroup(){
+
+                        const groupName = document.getElementById("idGroupName");
+                        const email = localStorage.getItem("email");
+                        const groupId = localStorage.getItem(email.toLowerCase()+"_"+"group");
+                        //groupId = groupId.replace(email.toLowerCase() +"_", "");
+                        const grocRef = ref(db, "groups/" + groupId);
+
+                        get(grocRef).then((snapshot) => {
+                            if (snapshot.exists()) {
+                                const data = snapshot.val();
+                                groupName.innerHTML = "Account: " +data.group;
+                                console.log("✅ Group name:", data.group);
+                            } else {
+                                console.warn("❌ No group found for ID:", groupId);
+                                groupName.innerHTML = "No account selected";
+                            }
+                        }).catch((err) => {
+                            console.error("🔥 Error reading group:", err);
+                            groupName.innerHTML = "No account selected";
+                        });
+
+                        const groupsRef = ref(db, 'groups');
+
+
+                        const q = query(groupsRef, orderByChild("email"), equalTo(email));
+
+                        //The readioButtons div
+                        const container = document.getElementById("radioButtons");
+
+                        // clear out old groups
+                        container.innerHTML = "";
+
+                        // Collect groups into an array
+                        const groupsArray = [];
+                        get(q).then((snapshot) => {
+                            if (snapshot.exists()) {
+                                snapshot.forEach((child) => {
+                                    groupsArray.push({ id: child.key, ...child.val() });
+                                });
+                            }
+                            // Sort by updatedAt descending (latest first)
+                            groupsArray.sort((a, b) => a.group.localeCompare(b.group));
+
+                            // Render each group
+                            groupsArray.forEach((group) => {
+                                
+                                //create the radioButton
+                                const inputG = document.createElement("input");
+                                console.log("email: " + group.group);
+                                inputG.type = "radio";
+                                inputG.name = "radioGroup";
+                                inputG.value = group.groupId;
+
+                                // Create label
+                                const label = document.createElement("label");
+
+                                label.style.display = "inline-flex"; // keep input + text side by side
+                                label.style.alignContent = "center";   // vertically align with input
+                                label.textContent = group.group;  // set text
+                                label.insertBefore(inputG, label.firstChild); // place radio before text
+
+                                // Add to container
+                                container.appendChild(label);
+                                container.appendChild(document.createElement("br")); // line break for spacing
+                                
+                            });
+                        });
+
+                    }
+                
+                    // Populate the radio buttons for selecting group.
+                    document.addEventListener("DOMContentLoaded", () => {
+                        showLoading(); // 🔄 show immediately when page starts
+
+                        let authChecked = false;
+
+                        onAuthStateChanged(auth, (user) => {
+                        authChecked = true;
+                        if (user) {
+                            getGroup();
+                        hideLoading(); // ✅ hide when ready
+                        } else {
+                        window.location.href = "login.html";
+                        }
+                        
+                    });
+                    setTimeout(() => {
+                            if (!authChecked && !auth.currentUser) {
+                                window.location.href = "login.html";
+                            } else if (auth.currentUser) {
+                                hideLoading();
+                            }
+                        }, 4000);
+                    });
+                    //document.addEventListener("idSaveGroup", () => {saveGroup();});
+                    
+                    document.getElementById("idSaveGroup").addEventListener("click", () => {
+                        const selected = document.querySelector('input[name="radioGroup"]:checked');
+                        
+                        if (selected) {
+                            const email = localStorage.getItem("email");
+                            localStorage.setItem(email.toLowerCase()+"_"+"group", selected.value);
+                            const nextPage = localStorage.getItem("webPage") || "index.html"; 
+                            window.location.href = nextPage;  // 🔑 go directly, skip re-check
+                        }else{
+                            customConfirm("You must select a group before Saving!","Select",false);
+                        }
+                    });
+                    document.getElementById("idShareGroup").addEventListener("click", () => {
+                        const selected = document.querySelector('input[name="radioGroup"]:checked');
+                        
+                        if (selected) {
+                            const email = localStorage.getItem("email");
+                            localStorage.setItem(email.toLowerCase()+"_"+"groupToShare",selected.value);
+                            window.location.href = "shareGroup.html";  // 🔑 go directly, skip re-check
+                        }else{
+                            customConfirm("You must select a group before Sharing!", "Select", false);
+                        }
+                    });
+                    document.getElementById("idNewGroup").addEventListener("click", () => {
+                        window.location.href = "newGroup.html";  // 🔑 go directly, skip re-check
+                    });
+                    document.getElementById("idDeleteGroup").addEventListener("click", async () => {
+                        const selected = document.querySelector('input[name="radioGroup"]:checked');
+                        const email = localStorage.getItem("email");
+                        if (selected) {
+                            const groupsRef = ref(db, 'groups');
+
+                            const snapshot1 = await get(groupsRef);
+                            const accountArray = [];
+                            snapshot1.forEach((child) =>{
+                                accountArray.push(child);
+                            });
+
+                            if (!snapshot1.exists()) {
+                                //await ensureConfirmModalLoaded();
+                                customConfirm("Could not find the account list.", "Error", false);
+                                return;
+                            }else{
+                                let dbGroup="";
+                                let dbEmail="";
+                                let dbGroupId = "";
+                                for(const child of accountArray){
+                                    const account = child.val();
+                                    
+                                        if(account.groupId === selected.value && account.email === email){
+                                        dbGroup = account.group;
+                                        dbEmail = account.email;
+                                        dbGroupId = account.groupId;
+                                        break;
+                                        }
+
+                                    
+                                };
+                                //alert(dbEmail+dbGroup)
+                                if(dbGroup==="" && dbGroupId==="" && dbEmail===""){
+                                    customConfirm(`Couldn't delete account with name ${dbGroup}`,"Sorry", false);
+
+                                }else{
+                                    if(dbGroup === email){
+                                        customConfirm(`${email} cannot delete it's base group, ${dbGroup}`,"Sorry", false);
+                                        return;
+                                    }else{
+                                        const ok = await customConfirm(`Are you sure you want to delete account, ${dbGroup}? NOTE: if this is a shared account, only you will lose visibility for the account.`, "Delete", true);
+                                        if(ok){
+                                            const grocRef = ref(db, "groups/" + dbGroupId);
+                                            remove(grocRef).then(() => {
+                                                customConfirm(`Email, ${email} has deleted account with name ${dbGroup}`,"Deleted",false);
+                                                showLoading(); // 🔄 show immediately when page starts
+
+                                                let authChecked = false;
+
+                                                onAuthStateChanged(auth, (user) => {
+                                                    authChecked = true;
+                                                    if (user) {
+                                                        getGroup();
+                                                    hideLoading(); // ✅ hide when ready
+                                                    } else {
+                                                    window.location.href = "login.html";
+                                                    }
+                                                });
+                                            });
+                                        }
+                                    }
+                                }
+
+                            }
+                        }else{
+                            customConfirm("You must select a group before Deleting!","Select",false);
+                        }
+                    });
+
+                </script>
+    <script type="module" src="js/firebaseLogin.js"></script>
+</body>
+</html>

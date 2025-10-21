@@ -1,0 +1,317 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: blue;
+}
+
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 120px;
+    background: darkblue;
+    color: rgba(255, 255, 255, 0.87);
+    display: flex;
+    align-items: center;
+    justify-content: left;
+    padding-left: 20px;
+    z-index: 1000;
+    margin-bottom: 10px
+}
+header.div {
+    display: block;
+}
+h2 {
+    padding: 0;
+    margin: 0;
+    font-size: 1.8em;
+}
+nav a {
+    text-decoration: none; /*This makes no underlines on nav hyperlinks*/
+    transition:color .4s linear;
+    font-size: 1.3em;
+    color: rgba(255, 255, 255, 0.87);
+    padding: 0;
+    margin: 0;
+}
+.navButtonDiv{
+    display: flex; flex-direction: column; align-items: center;
+}
+.navAarow{
+    font-size: 2em; color: rgb(105, 77, 230);
+}
+.navSmallFont{
+    font-size: .6em;
+}
+.navMediumFont{
+    font-size: .8em;
+}
+.allUnsetCursorPointer{
+    all: unset; cursor: pointer
+}
+#navDiv1{
+    display: flex; flex-direction: row; justify-content: space-between;
+}
+#currrentWeekBtn{
+    margin-bottom: 10; border: 1px solid rgba(255, 255, 255, 0.87); border-radius: 3px; padding-left: 10px; padding-right: 10px;
+}
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50px;
+    background: darkblue;
+    color: rgba(255, 255, 255, 0.87);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+main {
+    margin-top: 120px;  /* space so content isn’t hidden under header */
+    margin-bottom: 40px; /* space so content isn’t hidden under footer */
+    padding: 10px;
+}
+.whiteText{
+    color:rgba(255, 255, 255, 0.87);
+    opacity: 87%;
+}
+/*create meal button*/
+.day{
+    margin-right: 10px;
+}
+.custom-button {
+  display: inline-flex;
+  flex-direction: column;
+  border: 1px solid #333;
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.2s;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 5px;
+  background: darkblue;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.custom-button:hover {
+  background: rgb(22, 22, 148);
+}
+
+.custom-button:active {
+  background: darkblue;
+}
+
+/* First row aligns two spans side by side */
+.custom-button .row {
+  display: flex;
+}
+
+/*Modal*/
+#commentText{
+    width: 80%;
+}
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: darkblue;
+}
+.modal-content {
+    background: rgba(255, 255, 255, 0.87);
+    padding: 10px;
+    max-width: 400px;
+    margin: 10% auto;
+    border-radius: 8px;
+    max-height: 70vh;/* 🔑 only modal scrollsviewport height */
+    overflow-y: auto;/* 🔑 along with max-height, these 2 settings allow scrolling in the modal*/
+}
+.modalBlock {
+    display: block;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0);
+}
+.modal-contentBlock {
+    background: rgba(255, 255, 255, 0.87);
+    padding: 10px;
+    max-width: 400px;
+    margin: 10% auto;
+    border-radius: 8px;
+}
+.textareaSize {
+    width: 100%px;
+    height: 200px;
+    font-size: 1em;
+}
+
+/*Login page*/
+#login {
+    background: blue;
+    margin-left: 10;
+    margin-right: 10px;
+    padding-left: 10;
+}
+form {
+    margin-left: 10px;
+    padding-left: 0px;
+}
+.fontSize1em {
+    font-size: 1em;
+}
+.no-wrap {
+    white-space: nowrap; /* prevents wrapping */
+}
+
+label {
+    margin-right: 30px;
+}
+/*login buttons*/
+#chooseNewUser{
+    background: lightgreen;
+}
+#createUser{
+    background: lightgreen;
+}
+#logoutBtn{
+    background: lightgreen;
+}
+#logIn{
+    background: lightgreen;
+}
+#changeAccounts{
+    background: lightgreen;
+}
+#resetEmail{
+    background: lightgreen;
+}
+#index{
+    background: lightgreen;
+}
+input text{
+    width: 250px; /* control input width */
+    font-size: 1em;  /* adjust to what looks good */
+}
+.whiteBackground{
+    background: rgba(255, 255, 255, 0.87);
+    opacity: 87%;
+}
+
+/* CSS only for Windows */
+.windowsDivPassword {
+    border: 1px solid rgb(118, 118, 118);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    width: 300px; height: 36px;
+}
+.windowsButtonPassword {
+    align-items: center;
+    align-content: center;
+    border: none;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.87);
+    width: 36px; height: 36px;
+}
+.windowsInputPassword {
+    align-items: center;
+    align-content: center;
+    border: none;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.87);;
+    width: 264px; height: 34px;
+}
+/* CSS only for Android */
+.androidDivPassword {
+    border: 1px solid rgb(118, 118, 118);
+    border-radius: 5px;
+    display: flex;
+    flex-direction: row;
+    width: 300px; height: 36px;
+}
+.androidButtonPassword {
+    align-items: center;
+    align-content: center;
+    border: none;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.87);;
+    width: 36px; height: 36px;
+}
+.androidInputPassword {
+    align-items: center;
+    align-content: center;
+    border: none;
+    border-radius: 6px;
+    background-color: rgba(255, 255, 255, 0.87);;
+    width: 260px; height: 34px;
+}
+/* CSS only for iOS */
+.appleDivPassword {
+    display: flex;
+    flex-direction: row;
+    align-items: center;         /* center input + button vertically */
+    border: 1px solid rgb(118, 118, 118);
+    border-radius: 6px;
+    width: 250px;
+    height: 40px;
+    overflow: hidden;            /* trims any spill */
+    -webkit-appearance: none;    /* reset iOS default */
+    appearance: none;
+}
+
+.appleInputPassword {
+    /*flex: 5;                      take up remaining width */
+    width: 203px;
+    height: 100%;                /* fill container height */
+    border: none;
+    border-radius: 0;
+    padding: 0 4px;              /* add breathing space for text */
+    margin: 0;
+    font-size: 1em;
+    background-color: rgba(255, 255, 255, 0.87);;
+    /*box-sizing: border-box;       padding included in height */
+    -webkit-appearance: none;    /* reset iOS default */
+    appearance: none;
+}
+
+.appleButtonPassword {
+    /*flex: 1;*/
+    width: 39px;
+    /*width: 36px;*/
+    height: 100%;                 /* match parent height */
+    border: none;
+    margin: 0 0;
+    background-color: rgba(255, 255, 255, 0.87);;
+    display: flex;
+    justify-content: center;      /* center icon/text */
+    align-items: center;
+    -webkit-appearance: none;    /* reset iOS default */
+    appearance: none;
+}
+
+.emailInput {
+    background-color: rgba(255, 255, 255, 0.87);;
+    width: 230px; height: 36px;
+    font-size: 1em;
+    border: 1px solid rgb(118, 118, 118);
+    border-radius: 6px;
+    -webkit-appearance: none;    /* reset iOS default */
+    appearance: none;
+}
+.marginLeft {
+    margin-left: 10px;
+}

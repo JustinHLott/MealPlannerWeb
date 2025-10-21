@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"  name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/iris.css?v=5.91">
+    <link rel="stylesheet" href="css/confirm.css?v=1.00">
+    <title>Meal Planners: New Account</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .container { max-width: 400px; margin: auto; }
+        /*input { width: 100%; padding: 8px; margin-bottom: 10px; }*/
+        #buttons { padding: 10px 20px; }
+        .message { margin-top: 10px; color: green; }
+        .error { margin-top: 10px; color: red; }
+        #backBtn {margin-top: 50px;}
+    </style>
+</head>
+<body>
+<div class="container">
+    <h2>New Account</h2>
+    <div id="divPasswordReset" class="no-wrap" style="margin-bottom: 10px">
+        <p>Enter new Account name below:</p>
+        <input type="text" id="inputAccount" class="fontSize1em" >
+    </div>
+    
+    <button id="newAccountBtn" class="fontSize1em buttons" style="margin-top: 0px">Create New Account</button>
+    <div id="backBtn">
+        <button id="backToAccountsBtn" class="fontSize1em buttons">Back to Accounts</button>
+    </div>
+    <p class="message" id="status"></p>
+    <p class="message" id="message"></p>
+    <p class="error" id="error"></p>
+</div>
+<div id="custom-confirm"></div>
+
+<script type="module">
+    import { confirmPasswordReset } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
+    import { getDatabase, ref, push, set//, serverTimestamp
+        //, update
+        , query, orderByChild, equalTo, get, onValue, remove
+        } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-database.js";// if using Realtime DB
+    // Your Firebase config
+    import { auth } from "./js/firebaseAuth.js";
+    import { app } from "./js/firebaseAuth.js";
+    import { customConfirm } from "./js/confirmModal.js";
+    import { loadComponent } from "./js/functions.js";
+
+    const db = getDatabase(app);
+
+    
+    loadComponent("custom-confirm", "components/custom-confirm.html");
+    const newAccountBtn = document.getElementById("newAccountBtn");
+    const inputAccount = document.getElementById("inputAccount");
+    const messageEl = document.getElementById("message");
+    const errorEl = document.getElementById("error");
+
+    const email = localStorage.getItem("email");
+
+    newAccountBtn.addEventListener("click", async () => {
+        const newAccount = inputAccount.value.trim();
+
+        if (!newAccount) {
+            errorEl.textContent = "Please enter a new Account name.";
+            return;
+        }
+
+        const groupsRef = ref(db, 'groups');
+
+        const snapshot1 = await get(groupsRef);
+        const accountArray = [];
+        snapshot1.forEach((child) =>{
+            accountArray.push(child);
+        });
+
+        if (!snapshot1.exists()) {
+            //await ensureConfirmModalLoaded();
+            customConfirm("Could not find the account list.", "Error", false);
+            return;
+        }else{
+            let dbGroup="";
+            let dbEmail="";
+            for(const child of accountArray){
+                const account = child.val();
+                if(account.group === newAccount && account.email === email){
+                    dbGroup = account.group;
+                    dbEmail = account.email;
+                    break;
+                }
+            };
+            //alert(dbEmail+dbGroup)
+            if(dbGroup!="" && dbEmail!=""){
+                customConfirm(`Email, ${email} already has an account with name ${dbGroup}`);
+                inputAccount.value = "";
+            }else{
+                const newGroupRef = push(groupsRef); // generates a unique ID
+
+                                
+                                
+                set(newGroupRef, { 
+                    email: email,
+                    group: newAccount,
+                    groupId: newGroupRef.key,
+                    id: newGroupRef.key
+                    })
+                .then(async() =>{
+                        //alert("added new group success");
+                        console.log("Group added successfully!");
+                        localStorage.setItem(email.toLowerCase()+"_"+"group", newGroupRef.key);
+                        const ok = await customConfirm(`Successfully created account "${newAccount}" for email ${email}`, "Success", false);
+
+                        if(ok){
+                            window.location.href="getGroup.html"
+                        }
+                    })
+                .catch(err => {
+                    //alert("added new group err");
+                    customConfirm("Added new group, error: ", "Error", false);
+                    console.error("❌ Error:", err);
+
+                });
+            }
+        }
+
+        
+    });
+
+    const backToAccounts = document.getElementById("backToAccountsBtn");
+    if (backToAccounts){
+        backToAccounts.addEventListener("click", () => {
+            window.location.href="getGroup.html"
+        });
+    }
+    
+</script>
+
+</body>
+</html>
