@@ -48,13 +48,16 @@ nav a {
     font-size: .8em;
 }
 .allUnsetCursorPointer{
-    all: unset; cursor: pointer
+    cursor: pointer
 }
 #navDiv1{
     display: flex; flex-direction: row; justify-content: space-between;
 }
 #currrentWeekBtn{
     margin-bottom: 10; border: 1px solid rgba(255, 255, 255, 0.87); border-radius: 3px; padding-left: 10px; padding-right: 10px;
+}
+.blueButton{
+    background: darkblue;
 }
 footer {
     position: fixed;

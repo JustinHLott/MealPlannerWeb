@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/reset.css">
   <link rel="stylesheet" href="css/allMeals.css?v=1.00">
   <link rel="stylesheet" href="css/confirm.css?v=1.00">
   <title>Meal Planners: Week</title>
@@ -13,35 +14,35 @@
     <div>
         <h2 class="theHeader whiteText">Meals By Week</h2><br>
         <nav>
-            <div id="navDiv1">
+            <div id="navDiv1" style="gap: 1rem">
               <a href="addMeal.html" id="addMealNav">
                 <div class="navButtonDiv">
                   <div>➕</div>
                   <div class="navSmallFont">Add Meal</div>
                 </div>
-              </a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </a>
               <a href="addGroceryItem.html" id="addGroceriesNav">
                 <div class="navButtonDiv">
                   <div>➕</div>
                   <div class="navSmallFont">Add Grocery</div>
                 </div>
-              </a>&nbsp;&nbsp;&nbsp;&nbsp;
-              <button id="past" style="margin-right: 10px">
+              </a>
+              <button id="past" class="blueButton">
                 <div class="navButtonDiv allUnsetCursorPointer">
                   <div class="navAarow">⇐</div>
                 </div>
-              </button>&nbsp;&nbsp;
-              <button id="currentWeekBtn"class="whiteSpace">
+              </button>
+              <button id="currentWeekBtn"class="whiteSpace blueButton">
                 <div class="navButtonDiv allUnsetCursorPointer">
-                  <div class="navMediumFont">Current</div>
-                  <div class="navMediumFont">Week</div>
+                  <div class="navMediumFont whiteText">Current</div>
+                  <div class="navMediumFont whiteText">Week</div>
                 </div>
-              </button>&nbsp;&nbsp;
-              <button id="future">
+              </button>
+              <button id="future" class="blueButton">
                 <div class="navButtonDiv allUnsetCursorPointer">
                   <div class="navAarow">⇒</div>
                 </div>
-              </button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              </button>&nbsp;
             </div>
         </nav>
     </div>

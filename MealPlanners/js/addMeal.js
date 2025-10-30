@@ -13,7 +13,7 @@ import { customConfirm } from "./confirmModal.js";
 import { getGroceries } from "./grocery.js";
 import { setupGroceryEditControls } from "./grocery.js";
 
-//To update the app hosted in firebase put this in teh powershell terminal:
+//To update the app hosted in firebase put this in the powershell terminal:
 //   firebase deploy --only hosting:mealplanners
 //Then press enter
 
