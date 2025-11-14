@@ -3,7 +3,7 @@
     "rules": "database.rules.json"
   },
   "hosting": {
-    "target": "mealplanners",
+
     "public": "mealplanners",
     "site": "mealplanners",
     "ignore": [
