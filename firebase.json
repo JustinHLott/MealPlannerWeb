@@ -3,7 +3,9 @@
     "rules": "database.rules.json"
   },
   "hosting": {
-    "public": "MealPlanners",
+    "target": "mealplanners",
+    "public": "mealplanners",
+    "site": "mealplanners",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -11,3 +13,5 @@
     ]
   }
 }
+
+
