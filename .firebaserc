@@ -1,5 +1,15 @@
 {
   "projects": {
-    "default": "mealplanners"
+    "default": "justinhlottcapstone"
+  },
+  "targets": {
+    "justinhlottcapstone": {
+      "hosting": {
+        "mealplanners": [
+          "mealplanners"
+        ]
+      }
+    }
   }
 }
+
