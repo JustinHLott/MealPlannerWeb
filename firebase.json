@@ -4,7 +4,7 @@
   },
   "hosting": {
     "target": "mealplanners",
-    "public": "mealplanners",
+    "public": "MealPlanners",
     
     "ignore": [
       "firebase.json",
