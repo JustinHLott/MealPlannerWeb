@@ -24,73 +24,80 @@ loadComponent("edit--modal", "components/edit-modal.html");
 loadComponent("custom-confirm", "components/custom-confirm.html");
 
 async function getStartAndEnd(theDate){
-    console.log("lastSunday or nextMonday: " + theDate);
+    //console.log("lastSunday or nextMonday: " + theDate);
     let today;
+    let startWeek;
+    let dayOfWeek;
+
     if(theDate){
         if(theDate === "futureSunday"){
             const futureSunday = localStorage.getItem("nextSunday");
             if(futureSunday){
-                console.log("NextSunday: "+ futureSunday)
+                //console.log("NextSunday: "+ futureSunday)
                 today = new Date(futureSunday);// past or future week    
             }
             
         }else if(theDate === "lastSunday"){
             const pastSunday = localStorage.getItem("lastSunday");
             if(pastSunday){
-                console.log("PastSunday: "+ pastSunday)
+                //console.log("PastSunday: "+ pastSunday)
                 today = new Date(pastSunday);// past or future week    
             }
             
         }
-        
-    }else{
-        today = new Date();//currrent week
+        //console.log("Today1: ", today);
+        today.setHours(0);
+        today.setMinutes(0);
+        today.setSeconds(0);
+        //console.log("Today2: ", today);
+
+        dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Sunday
+
+        // Clone today's date so we don't modify the original
+        startWeek = new Date(today);
+        startWeek.setDate(today.getDate() - dayOfWeek );
+        //console.log("StartWeek: ", startWeek);
+    }else{ //This is for the current week button or for the first visit to the page.
+        today = new Date();//current week
+        //today = new Date("Sun Nov 16 2025 00:00:00 GMT-0700");
+        //console.log("Today1: ", today);
+        today.setHours(0);
+        today.setMinutes(0);
+        today.setSeconds(0);
+        //console.log("Today2: ", today);
+
+        dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Sunday
+
+        // Clone today's date so we don't modify the original
+        startWeek = new Date(today);
+        startWeek.setDate(today.getDate() - dayOfWeek -1 );
+        //console.log("StartWeek: ", startWeek);
     }
-    
-    today.setHours(0);
-    today.setMinutes(0);
-    today.setSeconds(0);
-    //const endWeek = ;
-
-
-    const dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Sunday
-
-    // Clone today's date so we don't modify the original
-    const startWeek = new Date(today);
-    startWeek.setDate(today.getDate() - dayOfWeek );
-    startWeek.setHours(0);
-    startWeek.setMinutes(0);
-    startWeek.setSeconds(0);
-    console.log("StartWeek: ", startWeek);
 
     const endWeek = new Date(today);
     if(endWeek.toDateString()==="Sunday"){
+        endWeek.setDate(today.getDate() +6);
         endWeek.setHours(23);
         endWeek.setMinutes(59);
         endWeek.setSeconds(59);
-        console.log("upcoming Sunday unaltered:", endWeek);
+        //console.log("upcoming Sunday unaltered:", endWeek);
     }else{
         endWeek.setDate(today.getDate() +(6- dayOfWeek));
         endWeek.setHours(23);
         endWeek.setMinutes(59);
         endWeek.setSeconds(59);
-        console.log("End week:", endWeek);
+        //console.log("End week:", endWeek);
     }
-
-    //const email = localStorage.getItem("email");
-    //let account = localStorage.getItem(email.toLowerCase()+"_"+"group");
-    //alert("account before: " +account);
-    //alert("account after: " +account);
 
     const lastSunday = new Date(startWeek);
     lastSunday.setDate(lastSunday.getDate() -7);
     localStorage.setItem("lastSunday", new Date(lastSunday));
-    console.log("Last Sunday: ", lastSunday);
+    //console.log("Last Sunday: ", lastSunday);
 
     const nextSunday = new Date(startWeek); 
     nextSunday.setDate(nextSunday.getDate() + 7);
     localStorage.setItem("nextSunday", new Date(nextSunday));
-    console.log("Next Sunday: ", nextSunday);
+    //console.log("Next Sunday: ", nextSunday);
 
     const datesArray = [];
 
@@ -104,7 +111,7 @@ function pastWeek() {
     getStartAndEnd("lastSunday").then(datesArray=>{
         const startWeek = new Date(datesArray[0]);
         const endWeek = new Date(datesArray[1]);
-        console.log("Start and end: " + startWeek + endWeek);
+        //console.log("Start and end: " + startWeek + endWeek);
         getMeals(true, startWeek, endWeek);
     });
 }
@@ -113,7 +120,7 @@ function currentWeek() {
     getStartAndEnd(null).then(datesArray=>{
         const startWeek = new Date(datesArray[0]);
         const endWeek = new Date(datesArray[1]);
-        console.log("Start and end: " + startWeek + endWeek);
+        //console.log("Start and end: " + startWeek + endWeek);
         getMeals(true, startWeek, endWeek);
     });
 }
@@ -122,7 +129,7 @@ function futureWeek() {
     getStartAndEnd("futureSunday").then(datesArray=>{
         const startWeek = new Date(datesArray[0]);
         const endWeek = new Date(datesArray[1]);
-        console.log("Start and end: " + startWeek + endWeek);
+        //console.log("Start and end: " + startWeek + endWeek);
         getMeals(true, startWeek, endWeek);
     });
 }

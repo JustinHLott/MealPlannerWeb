@@ -27,8 +27,8 @@ console.log(`🗄️ group: ${group}`);
 
 //Get comments
 export async function getMeals(thisWeek, startWeek, endWeek) {
-    console.log("ThisWeek: "+thisWeek);
-    console.log("Start and end getMeals: " + startWeek + endWeek);
+    //console.log("ThisWeek: "+thisWeek);
+    //console.log("Start and end getMeals: " + startWeek + endWeek);
     onAuthStateChanged(auth, (user) => {
         if (!user) {
             window.location.href = "login.html";
@@ -45,7 +45,7 @@ export async function getMeals(thisWeek, startWeek, endWeek) {
     }
     
 
-    console.log(`Meals: ${group}`);
+    //console.log(`Meals group: ${group}`);
     if(group){
         
     }else{
