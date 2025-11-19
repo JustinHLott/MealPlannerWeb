@@ -27,7 +27,8 @@ console.log(`🗄️ group: ${group}`);
 
 //Get comments
 export async function getMeals(thisWeek, startWeek, endWeek) {
-    console.log("ThisWeek: "+thisWeek)
+    console.log("ThisWeek: "+thisWeek);
+    console.log("Start and end getMeals: " + startWeek + endWeek);
     onAuthStateChanged(auth, (user) => {
         if (!user) {
             window.location.href = "login.html";
@@ -71,6 +72,7 @@ export async function getMeals(thisWeek, startWeek, endWeek) {
             snapshot.forEach((child) => {
                 if(thisWeek===true){//This is for the current week
                     const meal = child.val();
+
                     if(new Date(meal.date)>=new Date(startWeek) && new Date(meal.date)<=new Date(endWeek)){//if the meals date is between or equal to startWeek and endWeek
                         commentsArray.push({ id: child.key, ...child.val() });
                     }

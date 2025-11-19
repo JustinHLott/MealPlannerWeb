@@ -48,6 +48,8 @@ async function getStartAndEnd(theDate){
     }
     
     today.setHours(0);
+    today.setMinutes(0);
+    today.setSeconds(0);
     //const endWeek = ;
 
 
@@ -55,7 +57,11 @@ async function getStartAndEnd(theDate){
 
     // Clone today's date so we don't modify the original
     const startWeek = new Date(today);
-    startWeek.setDate(today.getDate() - dayOfWeek);
+    startWeek.setDate(today.getDate() - dayOfWeek );
+    startWeek.setHours(0);
+    startWeek.setMinutes(0);
+    startWeek.setSeconds(0);
+    console.log("StartWeek: ", startWeek);
 
     const endWeek = new Date(today);
     if(endWeek.toDateString()==="Sunday"){
@@ -68,7 +74,7 @@ async function getStartAndEnd(theDate){
         endWeek.setHours(23);
         endWeek.setMinutes(59);
         endWeek.setSeconds(59);
-        console.log("upcoming Sunday:", endWeek);
+        console.log("End week:", endWeek);
     }
 
     //const email = localStorage.getItem("email");
@@ -79,10 +85,12 @@ async function getStartAndEnd(theDate){
     const lastSunday = new Date(startWeek);
     lastSunday.setDate(lastSunday.getDate() -7);
     localStorage.setItem("lastSunday", new Date(lastSunday));
+    console.log("Last Sunday: ", lastSunday);
 
     const nextSunday = new Date(startWeek); 
     nextSunday.setDate(nextSunday.getDate() + 7);
     localStorage.setItem("nextSunday", new Date(nextSunday));
+    console.log("Next Sunday: ", nextSunday);
 
     const datesArray = [];
 
@@ -96,6 +104,7 @@ function pastWeek() {
     getStartAndEnd("lastSunday").then(datesArray=>{
         const startWeek = new Date(datesArray[0]);
         const endWeek = new Date(datesArray[1]);
+        console.log("Start and end: " + startWeek + endWeek);
         getMeals(true, startWeek, endWeek);
     });
 }
@@ -104,6 +113,7 @@ function currentWeek() {
     getStartAndEnd(null).then(datesArray=>{
         const startWeek = new Date(datesArray[0]);
         const endWeek = new Date(datesArray[1]);
+        console.log("Start and end: " + startWeek + endWeek);
         getMeals(true, startWeek, endWeek);
     });
 }
