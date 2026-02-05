@@ -103,16 +103,18 @@ function addMeal2(account, latestDate) {
         modal.style.position="fixed";
         modal.style.zIndex="1000";
         modal.style.left="0";
-        modal.style.top="0";
+        modal.style.top="-10px";
         modal.style.width="100%";
         modal.style.height="100%";
-        modal.style.background="rgb(0,0,0)";
+        modal.style.background="darkblue";
 
         modalContent.style.background="rgba(255, 255, 255, 0.87)";
         modalContent.style.padding="10px";
         modalContent.style.maxWidth="400px";
         modalContent.style.margin="10% auto";
         modalContent.style.borderRadius="8px";
+        modalContent.style.maxHeight="80vh";/* 🔑 only modal scrollsviewport height */
+        modalContent.style.overflowY="auto";/* 🔑 along with max-height, these 2 settings allow scrolling in the modal*/
     }
     
     const createdDate1 = new Date(latestDate);
