@@ -70,7 +70,13 @@ async function getStartAndEnd(theDate){
 
         // Clone today's date so we don't modify the original
         startWeek = new Date(today);
-        startWeek.setDate(today.getDate() - dayOfWeek -1 );
+        if(dayOfWeek === 0){// if today is Sunday
+            startWeek.setDate(today.getDate() - dayOfWeek -1 );
+        }else{
+            startWeek.setDate(today.getDate() - dayOfWeek );
+        }
+        //startWeek.setDate(today.getDate() - dayOfWeek -1 );
+        startWeek.setDate(today.getDate() - dayOfWeek );
         //console.log("StartWeek: ", startWeek);
     }
 
@@ -137,58 +143,59 @@ function futureWeek() {
 
 
 document.addEventListener("DOMContentLoaded", () => {
-    showLoading(); // 🔄 show immediately when page starts
+  showLoading();
 
-    let authChecked = false;
+  let authResolved = false;
 
-    onAuthStateChanged(auth, (user) => {
-    authChecked = true;
-    if (user) {
-        currentWeek();
-        const past = document.getElementById("past");
-        if (past) {
-            past.addEventListener("click", pastWeek);
-        }
-        const currentWeekBtn = document.getElementById("currentWeekBtn");
-        if (currentWeekBtn) {
-            currentWeekBtn.addEventListener("click", currentWeek);
-        }
-        const future = document.getElementById("future");
-        if (future) {
-            future.addEventListener("click", futureWeek);
-        }
-        const addMealNav = document.getElementById("addMealNav");
-        if (addMealNav) {
-            //addMealNav.addEventListener("click", () => loadAddMeal());
-            addMealNav.addEventListener("click", () => window.location.href="addMeal.html");
-        }
-        const addGroceriesNav = document.getElementById("addGroceriesNav");
-        if (addGroceriesNav) {
-            //addGroceriesNav.addEventListener("click", () => loadAddMeal());
-            addGroceriesNav.addEventListener("click", () => window.location.href="addGroceryItem.html");
-        }
-        const allMealsBtn = document.getElementById("allMealsBtn");
-        if (allMealsBtn) {
-            allMealsBtn.addEventListener("click",  getMeals(false, null, null));
-        }
-        const allGroceriesBtn = document.getElementById("allGroceriesBtn");
-        if (allGroceriesBtn) {
-            //allGroceriesBtn.addEventListener("click",  getTheGroceries());
-            allGroceriesBtn.addEventListener("click", () => window.location.href="groceries.html");
-        }
-
-    } else {
+  const authTimeout = setTimeout(() => {
+    if (!authResolved) {
       window.location.href = "login.html";
     }
-    
+  }, 5000);
+
+  onAuthStateChanged(auth, (user) => {
+    authResolved = true;
+    clearTimeout(authTimeout);
+
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    // ✅ User is authenticated
+    hideLoading();
+
+    currentWeek();
+
+    const past = document.getElementById("past");
+    past?.addEventListener("click", pastWeek);
+
+    const currentWeekBtn = document.getElementById("currentWeekBtn");
+    currentWeekBtn?.addEventListener("click", currentWeek);
+
+    const future = document.getElementById("future");
+    future?.addEventListener("click", futureWeek);
+
+    const addMealNav = document.getElementById("addMealNav");
+    addMealNav?.addEventListener("click", () => {
+      window.location.href = "addMeal.html";
+    });
+
+    const addGroceriesNav = document.getElementById("addGroceriesNav");
+    addGroceriesNav?.addEventListener("click", () => {
+      window.location.href = "addGroceryItem.html";
+    });
+
+    const allMealsBtn = document.getElementById("allMealsBtn");
+    allMealsBtn?.addEventListener("click", () => {
+      getMeals(false, null, null);
+    });
+
+    const allGroceriesBtn = document.getElementById("allGroceriesBtn");
+    allGroceriesBtn?.addEventListener("click", () => {
+      window.location.href = "groceries.html";
+    });
   });
-  setTimeout(() => {
-        if (!authChecked && !auth.currentUser) {
-        window.location.href = "login.html";
-        } else if (auth.currentUser) {
-        hideLoading();// ✅ hide when ready
-        }
-    }, 300)
 });
 
   

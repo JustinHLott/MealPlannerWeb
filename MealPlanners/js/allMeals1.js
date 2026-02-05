@@ -1,3 +1,10 @@
+/*--------------No longer used, but keeping for reference------------------*/
+/*--------------No longer used, but keeping for reference------------------*/
+/*--------------No longer used, but keeping for reference------------------*/
+/*--------------No longer used, but keeping for reference------------------*/
+/*--------------No longer used, but keeping for reference------------------*/
+
+
 import { showLoading, hideLoading } from "./loading.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 import { auth } from "./firebaseAuth.js";
@@ -58,7 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (auth.currentUser) {
       hideLoading(); // ✅ hide when ready
     }
-  }, 300);
+  }, 5000);
 
 
 

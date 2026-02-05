@@ -12,6 +12,12 @@ import { setupGroceryEditControls } from "./grocery.js";
 import { customConfirm } from "./confirmModal.js";
 import {loadComponent} from "./functions.js";
 
+import { showLoading, hideLoading } from "./loading.js";
+
+//import { getTheGroceries } from "./allGroceries.js";
+
+localStorage.setItem("webPage","allMeals.html");
+
 
 const db = getDatabase(app);
 const email = localStorage.getItem("email");
@@ -23,29 +29,34 @@ if(email){
 }
 
 
-console.log(`🗄️ group: ${group}`);
+//console.log(`🗄️ group allMeals2: ${group}`);
+getMeals(false, null, null); // Load all meals on page load
 
 //Get comments
 export async function getMeals(thisWeek, startWeek, endWeek) {
-    //console.log("ThisWeek: "+thisWeek);
-    //console.log("Start and end getMeals: " + startWeek + endWeek);
+
+    /*
     onAuthStateChanged(auth, (user) => {
         if (!user) {
             window.location.href = "login.html";
         }
     });
+    */
 
     let currentMeal = null; // holds the meal currently being edited
     var group = "";
     const email = localStorage.getItem("email");
+    //console.log(`email: ${email}`);
     if(email){
+        //console.log(`email: ${email}`);
         group = localStorage.getItem(email.toLowerCase()+"_"+"group");
     }else{
+        //console.log(`email: ${email}`);
         return;
     }
     
 
-    //console.log(`Meals group: ${group}`);
+    console.log(`Meals group: ${group}`);
     if(group){
         
     }else{
@@ -348,12 +359,80 @@ export async function getMeals(thisWeek, startWeek, endWeek) {
         }
     });
 } 
+/*
 document.addEventListener("DOMContentLoaded", () => {
     loadComponent("footerComponent", "components/footer.html");
     loadComponent("headerComponent", "components/header.html");
     loadComponent("edit--modal", "components/edit-modal.html");
     loadComponent("custom-confirm", "components/custom-confirm.html");
     //getMeals(true, null, null);
+});
+*/
+
+document.addEventListener("DOMContentLoaded", () => {
+  showLoading();
+
+  let authResolved = false;
+
+  // Fallback if auth never resolves
+  const authTimeout = setTimeout(() => {
+    if (!authResolved) {
+      window.location.href = "login.html";
+    }
+  }, 5000);
+
+  onAuthStateChanged(auth, (user) => {
+    authResolved = true;
+    clearTimeout(authTimeout);
+
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    // ✅ Authenticated
+    hideLoading();
+
+    loadComponent("footerComponent", "components/footer.html");
+    loadComponent("headerComponent", "components/header.html");
+    loadComponent("edit--modal", "components/edit-modal.html");
+    loadComponent("custom-confirm", "components/custom-confirm.html");
+
+    // Keyboard accessibility for custom button
+    const customButton = document.querySelector(".custom-button");
+    customButton?.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        e.currentTarget.click();
+      }
+    });
+
+    const addGroceriesNav = document.getElementById("addGroceriesNav");
+    addGroceriesNav?.addEventListener("click", () => {
+      window.location.href = "addGroceryItem.html";
+    });
+
+    const addMealNav = document.getElementById("addMealNav");
+    addMealNav?.addEventListener("click", () => {
+      window.location.href = "addMeal.html";
+    });
+
+    /*
+    const allMealsBtn = document.getElementById("allMealsBtn");
+        if (allMealsBtn) {
+            allMealsBtn.addEventListener("click",  getMeals(false, null, null));
+        }
+    */
+    const allMealsBtn = document.getElementById("allMealsBtn");
+    allMealsBtn?.addEventListener("click", () => {
+      getMeals(false, null, null);
+    });
+
+    const allGroceriesBtn = document.getElementById("allGroceriesBtn");
+    allGroceriesBtn?.addEventListener("click", () => {
+      window.location.href = "groceries.html";
+    });
+  });
 });
     
 

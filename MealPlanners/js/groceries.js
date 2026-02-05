@@ -6,44 +6,46 @@ import { auth } from "./firebaseAuth.js";
 localStorage.setItem("webPage","groceries.html");
 
 document.addEventListener("DOMContentLoaded", () => {
-    showLoading(); // 🔄 show immediately when page starts
+  showLoading();
 
-    let authChecked = false;
+  let authResolved = false;
 
-    onAuthStateChanged(auth, (user) => {
-    authChecked = true;
-    if (user) {
-        const addMealNav = document.getElementById("addMealNav");
-        if (addMealNav) {
-            //addMealNav.addEventListener("click", () => loadAddMeal());
-            addMealNav.addEventListener("click", () => window.location.href="addGroceryItem.html");
-        }
-        const addGroceriesNav = document.getElementById("addGroceriesNav");
-        if (addGroceriesNav) {
-            //addGroceriesNav.addEventListener("click", () => loadAddMeal());
-            addGroceriesNav.addEventListener("click", () => window.location.href="addGroceryItem.html");
-        }
-
-        const allMealsBtn = document.getElementById("allMealsBtn");
-        if (allMealsBtn) {
-            //allMealsBtn.addEventListener("click",  getMeals(false, null, null));
-        }
-        const allGroceriesBtn = document.getElementById("allGroceriesBtn");
-        if (allGroceriesBtn) {
-            //allGroceriesBtn.addEventListener("click",  getTheGroceries());
-            allGroceriesBtn.addEventListener("click", () => window.location.href="groceries.html");
-        }
-        //hideLoading(); // ✅ hide when ready
-    } else {
+  // Fallback in case auth never resolves
+  const authTimeout = setTimeout(() => {
+    if (!authResolved) {
       window.location.href = "login.html";
     }
-    
+  }, 5000);
+
+  onAuthStateChanged(auth, (user) => {
+    authResolved = true;
+    clearTimeout(authTimeout);
+
+    if (!user) {
+      window.location.href = "login.html";
+      return;
+    }
+
+    // ✅ Authenticated
+    hideLoading();
+
+    const addMealNav = document.getElementById("addMealNav");
+    addMealNav?.addEventListener("click", () => {
+      window.location.href = "addGroceryItem.html";
+    });
+
+    const addGroceriesNav = document.getElementById("addGroceriesNav");
+    addGroceriesNav?.addEventListener("click", () => {
+      window.location.href = "addGroceryItem.html";
+    });
+
+    const allMealsBtn = document.getElementById("allMealsBtn");
+    // Add handler here later if needed
+    // allMealsBtn?.addEventListener("click", () => getMeals(false, null, null));
+
+    const allGroceriesBtn = document.getElementById("allGroceriesBtn");
+    allGroceriesBtn?.addEventListener("click", () => {
+      window.location.href = "groceries.html";
+    });
   });
-  setTimeout(() => {
-        if (!authChecked && !auth.currentUser) {
-            window.location.href = "login.html";
-        } else if (auth.currentUser) {
-            hideLoading();
-        }
-    }, 500);
 });
