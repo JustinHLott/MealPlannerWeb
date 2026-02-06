@@ -25,12 +25,16 @@ async function loadComponent(id, path) {
   }
 }
 
-loadComponent("footerComponent", "components/footer.html");
-loadComponent("headerComponent", "components/header.html");
-loadComponent("custom-confirm", "components/custom-confirm.html");
+(async () => {
+  loadComponent("footerComponent", "components/footer.html"); // can load anytime
+  await loadComponent("headerComponent", "components/header.html");
+  await loadComponent("expandHeader", "components/buttonsGrocerySorting.html");
+  await loadComponent("custom-confirm", "components/custom-confirm.html"); //
+})();
+
 
 //Get comments
-export async function getTheGroceries() {
+export async function getTheGroceries(sortBy = "key") {
     //alert("Made it to get TheGroceries");
     onAuthStateChanged(auth, (user) => {
         if (!user) {
@@ -74,6 +78,28 @@ export async function getTheGroceries() {
             // Sort by updatedAt ascending (oldest first)
             // Flip order so latest is first
             groceryArray.reverse();
+            
+            // Add sorting logic
+            if(sortBy === "key"){
+                //console.log("Sorting by key (default order)");
+            }
+
+            if (sortBy === "description") {
+                groceryArray.sort((a, b) => {
+                const nameA = (a.description || "").toLowerCase();
+                const nameB = (b.description || "").toLowerCase();
+                return nameA.localeCompare(nameB);
+                });
+            }
+
+            if (sortBy === "mealDesc") {
+                groceryArray.sort((a, b) => {
+                const nameA = (a.mealDesc || "").toLowerCase();
+                const nameB = (b.mealDesc || "").toLowerCase();
+                return nameA.localeCompare(nameB);
+                });
+            }
+            
         });
 
 
@@ -298,11 +324,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const addGroceryText = document.getElementById("addGroceryText");
     const saveNewGroceryBtn = document.getElementById("saveNewGroceryBtn");
     const cancelNewGroceryBtn = document.getElementById("cancelNewGroceryBtn");
+
     if (saveNewGroceryBtn){
         saveNewGroceryBtn.onclick = () => {
             
             //populate the text boxes
-//alert("Made it to add grocery");
+            alert("Made it to add grocery");
             const newQty = addQtyText.value;//Need to make sure this is a quantity
             const newText = addGroceryText.value;
             const email = localStorage.getItem("email");
@@ -332,9 +359,8 @@ document.addEventListener("DOMContentLoaded", () => {
                 customConfirm("You must provide a quantity and a Grocery Item Desription.", "Grocery Item?", false);
             }
         };
+       getTheGroceries(); 
     }
-
-    getTheGroceries();
 });
     
 

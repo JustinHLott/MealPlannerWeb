@@ -1,6 +1,7 @@
 import { showLoading, hideLoading } from "./loading.js";
 import { onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.0/firebase-auth.js";
 import { auth } from "./firebaseAuth.js";
+import { getTheGroceries } from "./allGroceries.js";
 
 
 localStorage.setItem("webPage","groceries.html");
@@ -38,6 +39,23 @@ document.addEventListener("DOMContentLoaded", () => {
     addGroceriesNav?.addEventListener("click", () => {
       window.location.href = "addGroceryItem.html";
     });
+
+    const sortByItemBtn = document.getElementById("sortByItem");
+    sortByItemBtn?.addEventListener("click", () => {
+      getTheGroceries("description");
+    });
+
+    const sortByDateBtn = document.getElementById("sortByDate");
+    sortByDateBtn?.addEventListener("click", () => {
+      getTheGroceries("key");
+    });
+
+    const sortByMealBtn = document.getElementById("sortByMeal");
+    sortByMealBtn?.addEventListener("click", () => {
+      getTheGroceries("mealDesc");
+    });
+
+    
 
     const allMealsBtn = document.getElementById("allMealsBtn");
     // Add handler here later if needed
