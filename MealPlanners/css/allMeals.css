@@ -346,4 +346,7 @@ input text{
     #expandHeader {
         margin-top: 10px;
     }
+    main {
+    margin-top: 145px;  /* space so content isn’t hidden under header */
+    }
 }
